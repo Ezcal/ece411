@@ -2,6 +2,6 @@ Microcontroller: Atmel AtMega328: http://www.digikey.com/product-detail/en/ATMEG
 
 RGB LEDs: Adafruit white LEDs with integrated drivers: http://www.adafruit.com/products/1655
 
-Power Supply: 18650 Li-Ion cells (3500mAh each, 4.2V output) - From a guy on laserpointerforums.com
+Power Supply: Li-Ion batteries
 
 Motion Sensor: PIR Motion Sensor: https://www.sparkfun.com/products/13285
