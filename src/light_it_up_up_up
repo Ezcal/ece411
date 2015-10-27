@@ -43,8 +43,15 @@ void led_binary(axis_type axis, uint16_t value)
   }
 }
 
+
+// X LED CTRL = PD0
+// Y LED CTRL = PD5
+
 void led_select(led_axis_type type)
 {
+
+  PD0 = 1; PD5 = 1;
+  
   switch(type)
   {
     case POS_X1:
@@ -80,9 +87,9 @@ void led_select(led_axis_type type)
     case NEG_Y4:
       PD6 = 1; PD7 = 1; PB0 = 1;
     case CENTERED:               
-      PD5 = 1;
+      PD4 = 1;
     case NONE;
-      PD1 = 0; PD2 = 0; PD3 = 0; PD5 = 0; PD6 = 0; PD7 = 0; PB0 = 0;
+      PD0 = 0; PD4 = 0; PD5 = 0;
   }
 
 }
