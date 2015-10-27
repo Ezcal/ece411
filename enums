@@ -3,6 +3,7 @@ typedef enum {
             NEG_X_AXIS, 
             POS_Y_AXIS, 
             NEG_Y_AXIS,
+            CENTERED,
             NONE
           } 
           axis_type;
