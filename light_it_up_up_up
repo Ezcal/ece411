@@ -5,15 +5,40 @@ void led_binary(axis_type axis, uint16_t value)
   switch(axis)
   {
     case POS_X_AXIS:
+      if(value > 21){led_select(POS_X1);}
+      if(value){led_select(POS_X2);};
+      if(value){led_select(POS_X3);};
+      if(value){led_select(POS_X4);};
+      break;
       
-      break;
     case NEG_X_AXIS:
+      if(value > 21){led_select(NEG_X1);}
+      if(value){led_select(NEG_X2);};
+      if(value){led_select(NEG_X3);};
+      if(value){led_select(NEG_X4);};
       break;
+      
     case POS_Y_AXIS:
+      if(value > 21){led_select(POS_Y1);}
+      if(value){led_select(POS_Y2);};
+      if(value){led_select(POS_Y3);};
+      if(value){led_select(POS_Y4);};
       break;
+      
     case NEG_Y_AXIS:
+      if(value > 21){led_select(NEG_Y1);}
+      if(value){led_select(NEG_Y1);};
+      if(value){led_select(NEG_Y1);};
+      if(value){led_select(NEG_Y1);};
       break;
+      
+    case CENTERED:
+      led_select(CENTERED);
+    break;
+    
+    case NONE:
     default:
+      led_select(NONE);
       break;
   }
 }
@@ -23,23 +48,41 @@ void led_select(led_axis_type type)
   switch(type)
   {
     case POS_X1:
+      PD1 = 0; PD2 = 0; PD3 = 0;
     case POS_X2:
+      PD1 = 0; PD2 = 0; PD3 = 1;
     case POS_X3:
+      PD1 = 0; PD2 = 1; PD3 = 0;
     case POS_X4:
+      PD1 = 0; PD2 = 1; PD3 = 1;
     case NEG_X1:
+      PD1 = 1; PD2 = 0; PD3 = 0;
     case NEG_X2:
+      PD1 = 1; PD2 = 0; PD3 = 1;
     case NEG_X3:
-    NEG_X4,
-    POS_Y1,
-    POS_Y2,
-    POS_Y3,
-    POS_Y4,
-    NEG_Y1,
-    NEG_Y2,
-    NEG_Y3,
-    NEG_Y4,
-    CENTERED,               
-  
+      PD1 = 1; PD2 = 1; PD3 = 0;
+    case NEG_X4:
+      PD1 = 1; PD2 = 1; PD3 = 1;
+    case POS_Y1:
+      PD6 = 0; PD7 = 0; PB0 = 0;
+    case POS_Y2:
+      PD6 = 0; PD7 = 0; PB0 = 1;
+    case POS_Y3:
+      PD6 = 0; PD7 = 1; PB0 = 0;
+    case POS_Y4:
+      PD6 = 0; PD7 = 1; PB0 = 1;
+    case NEG_Y1:
+      PD6 = 1; PD7 = 0; PB0 = 0;
+    case NEG_Y2:
+      PD6 = 1; PD7 = 0; PB0 = 1;
+    case NEG_Y3:
+      PD6 = 1; PD7 = 1; PB0 = 0;
+    case NEG_Y4:
+      PD6 = 1; PD7 = 1; PB0 = 1;
+    case CENTERED:               
+      PD5 = 1;
+    case NONE;
+      PD1 = 0; PD2 = 0; PD3 = 0; PD5 = 0; PD6 = 0; PD7 = 0; PB0 = 0;
   }
 
 }
