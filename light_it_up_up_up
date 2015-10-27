@@ -1,0 +1,45 @@
+
+
+void led_binary(axis_type axis, uint16_t value)
+{
+  switch(axis)
+  {
+    case POS_X_AXIS:
+      
+      break;
+    case NEG_X_AXIS:
+      break;
+    case POS_Y_AXIS:
+      break;
+    case NEG_Y_AXIS:
+      break;
+    default:
+      break;
+  }
+}
+
+void led_select(led_axis_type type)
+{
+  switch(type)
+  {
+    case POS_X1:
+    case POS_X2:
+    case POS_X3:
+    case POS_X4:
+    case NEG_X1:
+    case NEG_X2:
+    case NEG_X3:
+    NEG_X4,
+    POS_Y1,
+    POS_Y2,
+    POS_Y3,
+    POS_Y4,
+    NEG_Y1,
+    NEG_Y2,
+    NEG_Y3,
+    NEG_Y4,
+    CENTERED,               
+  
+  }
+
+}
