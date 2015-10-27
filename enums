@@ -28,6 +28,6 @@ typedef enum {
   NEG_Y4,
   CENTERED,
   NONE
-} led_axis_type
+} led_axis_type;
 
 led_axis_type led = NONE; // START WITH THE NONE STATE 
