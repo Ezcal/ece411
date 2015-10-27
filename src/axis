@@ -5,11 +5,11 @@ axis_type axis(uint16_t value)
 {
 
   //TODO: Put the comparision value for each axis here
-  bool pos_x_axis = 0 > value < 5;
-  bool neg_x_axis = value;
-  bool pos_y_axis = value;
-  bool neg_y_axis = value;
-  bool centered = value = 0;
+  bool pos_x_axis = 158 > value < 205;
+  bool neg_x_axis = 154 > value < 102;
+  bool pos_y_axis = 158 > value < 205;
+  bool neg_y_axis = 149 > value < 102;
+  bool centered = value == 154;
   
   if(pos_x_axis){
     return POS_X_AXIS;
