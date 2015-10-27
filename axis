@@ -1,0 +1,27 @@
+
+axis_type axis(uint16_t value)
+{
+
+  //TODO: Put the comparision value for each axis here
+  bool pos_x_axis = value;
+  bool neg_x_axis = value;
+  bool pos_y_axis = value;
+  bool neg_y_axis = value;
+  
+  if(pos_x_axis){
+    return POS_X_AXIS;
+  }
+  else if(neg_x_axis){
+    return NEG_X_AXIS;
+  }
+  else if(pos_y_axis){
+    return POS_Y_AXIS;
+  }
+  else if(neg_y_axis){
+    return NEG_Y_AXIS;
+  }
+  
+  // no range to fit the axis
+  return ERROR;
+  
+}
