@@ -5,10 +5,11 @@ axis_type axis(uint16_t value)
 {
 
   //TODO: Put the comparision value for each axis here
-  bool pos_x_axis = value;
+  bool pos_x_axis = 0 > value < 5;
   bool neg_x_axis = value;
   bool pos_y_axis = value;
   bool neg_y_axis = value;
+  bool centered = value = 0;
   
   if(pos_x_axis){
     return POS_X_AXIS;
@@ -22,8 +23,12 @@ axis_type axis(uint16_t value)
   else if(neg_y_axis){
     return NEG_Y_AXIS;
   }
+  else if(centered)
+  {
+    return CENTERED;
+  }
   
   // no range to fit the axis
-  return ERROR;
+  return NONE;
   
 }
