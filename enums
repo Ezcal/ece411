@@ -1,0 +1,2 @@
+typedef enum {POS_X_AXIS, NEG_X_AXIS, POS_Y_AXIS, NEG_Y_AXIS, BALANCED} axis_type;
+axis_type axis = BALANCED;
