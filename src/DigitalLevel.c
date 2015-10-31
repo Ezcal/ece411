@@ -26,11 +26,11 @@ int main(void)
 
 void adc_init()
 {
-	 AREF = AVcc
+	 //AREF = AVcc
 	 ADMUX = (1<<REFS0);
 	
-	 ADC Enable and prescaler of 128
-	 1000000/128 = 7812.5
+	 //ADC Enable and prescaler of 128
+	 //1000000/128 = 7812.5
 	ADCSRA = (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
 }
 
@@ -122,12 +122,12 @@ void led_binary(axis_type axis, uint16_t value)
 		break;
 		
 		case CENTERED:
-		led_select(CENTERED);
+		led_select(CNTR);
 		break;
 		
 		case NONE:
 		default:
-		led_select(NONE);
+		led_select(NOTHING);
 		break;
 	}
 }
@@ -175,9 +175,9 @@ void led_select(led_axis_type type)
 		PD6 = 1; PD7 = 1; PB0 = 0;
 		case NEG_Y4:
 		PD6 = 1; PD7 = 1; PB0 = 1;
-		case CENTERED:
+		case CNTR:
 		PD4 = 1;
-		case NONE;
+		case NOTHING:
 		PD0 = 0; PD4 = 0; PD5 = 0;
 	}
 
