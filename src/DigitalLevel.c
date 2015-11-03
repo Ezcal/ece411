@@ -6,20 +6,57 @@
  */ 
 
 
-
 #include <avr/io.h>
 #include "Enums.h"
 
-typedef enum { false=0, true=1  } bool;
+typedef enum { false = 0, true = 1  } bool;
 
-//#include "ADC.h"
-//#include "Axis.h"
-//#include "LightUp.h"
+void adc_init();
+uint16_t adc_read(uint8_t);
+axis_type axis(uint16_t, plane_type);
+void led_binary(axis_type, uint16_t);
+void led_select(led_axis_type);
 
 int main(void)
 {
+
+	// led ctrl
+	DDRD |= 1 << DDD0;
+	DDRD |= 1 << DDD5;
+	 
+	//center
+	DDRD |= 1 << DDD4;
+	
+	// x axis
+	DDRD |= 1 << DDD1;
+	DDRD |= 1 << DDD2;
+	DDRD |= 1 << DDD3;
+	
+	// y axis
+	DDRD |= 1 << DDD6;
+	DDRD |= 1 << DDD7;
+	DDRB |= 1 << DDB0;
+
+	uint8_t ch_x = 2;
+	uint8_t ch_y = 1;
+
+	adc_init();
+
     while(1)
     {
+		// X-Axis operations
+		// Reads from ADC
+		// Truns the led on the x axis depending on the converted value
+		uint16_t digital_value_x = adc_read(ch_x);
+		axis_type axis_x = axis(digital_value_x, X_PLANE);
+		led_binary(axis_x, digital_value_x);
+		
+		// Y-Axis Operations
+		// Reads from ADC
+		// Turns the led on y axis depending on the converted value
+		uint16_t digital_value_y = adc_read(ch_y);
+		axis_type axis_y = axis(digital_value_y, Y_PLANE);
+		led_binary(axis_y, digital_value_y);
 		
     }
 }
@@ -30,7 +67,7 @@ void adc_init()
 	 ADMUX = (1<<REFS0);
 	
 	 //ADC Enable and prescaler of 128
-	 //1000000/128 = 7812.5
+	 //1000000/16 = 7812.5
 	ADCSRA = (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
 }
 
@@ -53,32 +90,42 @@ uint16_t adc_read(uint8_t ch)
 	 //till then, run loop continuously
 	while(ADCSRA & (1<<ADSC));
 	
-	return (ADC);
+	return (ADCW);
 }
 
 
-axis_type axis(uint16_t value)
+axis_type axis(uint16_t value, plane_type plane)
 {
 
-	bool pos_x_axis = value <= 205 && value >= 158;
-	bool neg_x_axis = value <= 149 && value >= 102;
-	bool pos_y_axis = value <= 158 && value >= 205;
-	bool neg_y_axis = value <= 149 && value >= 102;
-	bool centered = value == 154 ;
+	if (plane == X_PLANE)
+	{
+		bool pos_x_axis = value <= 205 && value >= 158;
+		bool neg_x_axis = value <= 149 && value >= 102;
+		
+		if(pos_x_axis){
+			return POS_X_AXIS;
+		}
+		if(neg_x_axis){
+			return NEG_X_AXIS;
+		}
+	}
 	
-	if(pos_x_axis){
-		return POS_X_AXIS;
+	if (plane == Y_PLANE)
+	{
+		bool pos_y_axis = value <= 158 && value >= 205;
+		bool neg_y_axis = value <= 149 && value >= 102;
+		
+		if(pos_y_axis){
+			return POS_Y_AXIS;
+		}
+		if(neg_y_axis){
+			return NEG_Y_AXIS;
+		}
 	}
-	else if(neg_x_axis){
-		return NEG_X_AXIS;
-	}
-	else if(pos_y_axis){
-		return POS_Y_AXIS;
-	}
-	else if(neg_y_axis){
-		return NEG_Y_AXIS;
-	}
-	else if(centered)
+	
+	bool centered =  value < 158 && value > 149;
+
+	if(centered)
 	{
 		return CENTERED;
 	}
@@ -138,47 +185,80 @@ void led_binary(axis_type axis, uint16_t value)
 
 void led_select(led_axis_type type)
 {
-
-	PD0 = 1; PD5 = 1;
 	
 	switch(type)
 	{
 		case POS_X1:
-		PD1 = 0; PD2 = 0; PD3 = 0;
+		PORTD &= 0 << PD1; PORTD &= 0 <<  PD2; PORTD &= 0 << PD3;
+		break;
+		
 		case POS_X2:
-		PD1 = 0; PD2 = 0; PD3 = 1;
+		PORTD &= 0 << PD1; PORTD &= 0 << PD2; PORTD |= 1 << PD3;
+		break;
+		
 		case POS_X3:
-		PD1 = 0; PD2 = 1; PD3 = 0;
+		PORTD &= 0 << PD1; PORTD |= 1 << PD2; PORTD &= 0 << PD3;
+		break;
+		
 		case POS_X4:
-		PD1 = 0; PD2 = 1; PD3 = 1;
+		PORTD &= 0 << PD1; PORTD |= 1 << PD2; PORTD |= 1 << PD3;
+		break;
+		
 		case NEG_X1:
-		PD1 = 1; PD2 = 0; PD3 = 0;
+		PORTD |= 1 << PD1; PORTD &= 0 << PD2; PORTD &= 0 << PD3;
+		break;
+		
 		case NEG_X2:
-		PD1 = 1; PD2 = 0; PD3 = 1;
+		PORTD |= 1 << PD1; PORTD &= 0 << PD2; PORTD |= 1 << PD3;
+		break;
+		
 		case NEG_X3:
-		PD1 = 1; PD2 = 1; PD3 = 0;
+		PORTD |= 1 << PD1; PORTD |= 1 << PD2; PORTD &= 0 << PD3;
+		break;
+		
 		case NEG_X4:
-		PD1 = 1; PD2 = 1; PD3 = 1;
+		PORTD |= 1 << PD1; PORTD |= 1 << PD2; PORTD |= 1 << PD3;
+		break;
+		
 		case POS_Y1:
-		PD6 = 0; PD7 = 0; PB0 = 0;
+		PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
+		break;
+		
 		case POS_Y2:
-		PD6 = 0; PD7 = 0; PB0 = 1;
+		PORTD &= 0 << PD6; PORTD &= 0 << PD7; PORTB |= 1 << PB0;
+		break;
+		
 		case POS_Y3:
-		PD6 = 0; PD7 = 1; PB0 = 0;
+		PORTD &= 0 << PD6; PORTD |= 1 << PD7; PORTB &= 0 << PB0;
+		break;
+		
 		case POS_Y4:
-		PD6 = 0; PD7 = 1; PB0 = 1;
+		PORTD &= 0 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
+		break;
+		
 		case NEG_Y1:
-		PD6 = 1; PD7 = 0; PB0 = 0;
+		PORTD |= 1 << PD6; PORTD &= 0 << PD7; PORTB &= 0 << PB0;
+		break;
+		
 		case NEG_Y2:
-		PD6 = 1; PD7 = 0; PB0 = 1;
+		PORTD |= 1 << PD6; PORTD &= 0 << PD7; PORTB |= 1 << PB0;
+		break;
+		
 		case NEG_Y3:
-		PD6 = 1; PD7 = 1; PB0 = 0;
+		PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB &= 0 << PB0;
+		break;
+		
 		case NEG_Y4:
-		PD6 = 1; PD7 = 1; PB0 = 1;
+		PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
+		break;
+		
 		case CNTR:
-		PD4 = 1;
+		PORTD |= 1 << PD4;
+		break;
+		
 		case NOTHING:
-		PD0 = 0; PD4 = 0; PD5 = 0;
+		PORTD &= 0 << PD0; PORTD &= 0 << PD4; PORTD &=  0 << PD5;
+		break;
 	}
 
 }
