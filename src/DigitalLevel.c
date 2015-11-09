@@ -96,7 +96,10 @@ uint16_t adc_read(uint8_t ch)
 
 axis_type axis(uint16_t value, plane_type plane)
 {
+	bool centered =  value < 158 && value > 149;
 
+	if(centered){return CENTERED;}
+	
 	if (plane == X_PLANE)
 	{
 		bool pos_x_axis = value <= 205 && value >= 158;
@@ -122,20 +125,14 @@ axis_type axis(uint16_t value, plane_type plane)
 			return NEG_Y_AXIS;
 		}
 	}
-	
-	bool centered =  value < 158 && value > 149;
 
-	if(centered)
-	{
-		return CENTERED;
-	}
-	
 	//no range to fit the axis
 	return NONE;
 	
 }
 
-
+// Compare the values and Select the LED depending on the value.
+// This function calls another function that turns the LED ON.
 void led_binary(axis_type axis, uint16_t value)
 {
 	switch(axis)
@@ -180,9 +177,7 @@ void led_binary(axis_type axis, uint16_t value)
 }
 
 
- //X LED CTRL = PD0
- //Y LED CTRL = PD5
-
+// Turn ON the LED depending on the type of LED value
 void led_select(led_axis_type type)
 {
 	
