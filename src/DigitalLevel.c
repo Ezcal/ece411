@@ -68,7 +68,7 @@ void adc_init()
 	
 	 //ADC Enable and prescaler of 128
 	 //1000000/16 = 7812.5
-	ADCSRA = (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
+	ADCSRA = (1<<ADEN)|(1<<ADPS2);
 }
 
  //Read the value of the port and spits
@@ -96,10 +96,9 @@ uint16_t adc_read(uint8_t ch)
 
 axis_type axis(uint16_t value, plane_type plane)
 {
-	bool centered =  value < 158 && value > 149;
-
-	if(centered){return CENTERED;}
 	
+	if(value < 158 && value > 149){return CENTERED;}
+		
 	if (plane == X_PLANE)
 	{
 		bool pos_x_axis = value <= 205 && value >= 158;
@@ -135,44 +134,50 @@ axis_type axis(uint16_t value, plane_type plane)
 // This function calls another function that turns the LED ON.
 void led_binary(axis_type axis, uint16_t value)
 {
+	PORTD &= 0 << PD0; PORTD &= 0 << PD4; PORTD &=  0 << PD5;
+	
 	switch(axis)
 	{
 		case POS_X_AXIS:
-		if(value > 154 && value <= 158){led_select(POS_X1);}
-		if(value > 158 && value <= 163){led_select(POS_X2);};
-		if(value > 163 && value <= 173){led_select(POS_X3);};
-		if(value > 173 && value <= 205){led_select(POS_X4);};
-		break;
+			PORTD |= 1 << PD0; 
+			if(value > 154 && value <= 158){led_select(POS_X1);}
+			if(value > 158 && value <= 163){led_select(POS_X2);}
+			if(value > 163 && value <= 173){led_select(POS_X3);}
+			if(value > 173 && value <= 205){led_select(POS_X4);}
+			break;
 		
 		case NEG_X_AXIS:
-		if(value > 154 && value <= 149){led_select(NEG_X1);}
-		if(value > 149 && value <= 144){led_select(NEG_X2);};
-		if(value > 144 && value <= 135){led_select(NEG_X3);};
-		if(value > 135 && value <= 102){led_select(NEG_X4);};
-		break;
+			PORTD |= 1 << PD0; 
+			if(value > 154 && value <= 149){led_select(NEG_X1);}
+			if(value > 149 && value <= 144){led_select(NEG_X2);}
+			if(value > 144 && value <= 135){led_select(NEG_X3);}
+			if(value > 135 && value <= 102){led_select(NEG_X4);}
+			break;
 		
 		case POS_Y_AXIS:
-		if(value > 154 && value <= 158){led_select(POS_Y1);}
-		if(value > 158 && value <= 163){led_select(POS_Y2);};
-		if(value > 163 && value <= 172){led_select(POS_Y3);};
-		if(value > 172 && value <= 205){led_select(POS_Y4);};
-		break;
+			PORTD |=  1 << PD5;
+			if(value > 154 && value <= 158){led_select(POS_Y1);}
+			if(value > 158 && value <= 163){led_select(POS_Y2);}
+			if(value > 163 && value <= 172){led_select(POS_Y3);}
+			if(value > 172 && value <= 205){led_select(POS_Y4);}
+			break;
 		
 		case NEG_Y_AXIS:
-		if(value > 154 && value <= 149){led_select(NEG_Y1);}
-		if(value > 149 && value <= 145){led_select(NEG_Y1);};
-		if(value > 145 && value <= 135){led_select(NEG_Y1);};
-		if(value > 135 && value <= 102){led_select(NEG_Y1);};
-		break;
+			PORTD |=  1 << PD5;
+			if(value > 154 && value <= 149){led_select(NEG_Y1);}
+			if(value > 149 && value <= 145){led_select(NEG_Y1);}
+			if(value > 145 && value <= 135){led_select(NEG_Y1);}
+			if(value > 135 && value <= 102){led_select(NEG_Y1);}
+			break;
 		
 		case CENTERED:
-		led_select(CNTR);
-		break;
+			led_select(CNTR);
+			break;
 		
 		case NONE:
 		default:
-		led_select(NOTHING);
-		break;
+			led_select(NOTHING);
+			break;
 	}
 }
 
@@ -180,80 +185,80 @@ void led_binary(axis_type axis, uint16_t value)
 // Turn ON the LED depending on the type of LED value
 void led_select(led_axis_type type)
 {
-	
 	switch(type)
 	{
 		case POS_X1:
-		PORTD &= 0 << PD1; PORTD &= 0 <<  PD2; PORTD &= 0 << PD3;
-		break;
+			PORTD &= 0 << PD1; PORTD &= 0 <<  PD2; PORTD &= 0 << PD3;
+			break;
 		
 		case POS_X2:
-		PORTD &= 0 << PD1; PORTD &= 0 << PD2; PORTD |= 1 << PD3;
-		break;
+			PORTD &= 0 << PD1; PORTD &= 0 << PD2; PORTD |= 1 << PD3;
+			break;
 		
 		case POS_X3:
-		PORTD &= 0 << PD1; PORTD |= 1 << PD2; PORTD &= 0 << PD3;
-		break;
+			PORTD &= 0 << PD1; PORTD |= 1 << PD2; PORTD &= 0 << PD3;
+			break;
 		
 		case POS_X4:
-		PORTD &= 0 << PD1; PORTD |= 1 << PD2; PORTD |= 1 << PD3;
-		break;
+			PORTD &= 0 << PD1; PORTD |= 1 << PD2; PORTD |= 1 << PD3;
+			break;
 		
 		case NEG_X1:
-		PORTD |= 1 << PD1; PORTD &= 0 << PD2; PORTD &= 0 << PD3;
-		break;
+			PORTD |= 1 << PD1; PORTD &= 0 << PD2; PORTD &= 0 << PD3;
+			break;
 		
 		case NEG_X2:
-		PORTD |= 1 << PD1; PORTD &= 0 << PD2; PORTD |= 1 << PD3;
-		break;
+			PORTD |= 1 << PD1; PORTD &= 0 << PD2; PORTD |= 1 << PD3;
+			break;
 		
 		case NEG_X3:
-		PORTD |= 1 << PD1; PORTD |= 1 << PD2; PORTD &= 0 << PD3;
-		break;
+			PORTD |= 1 << PD1; PORTD |= 1 << PD2; PORTD &= 0 << PD3;
+			break;
 		
 		case NEG_X4:
-		PORTD |= 1 << PD1; PORTD |= 1 << PD2; PORTD |= 1 << PD3;
-		break;
+			PORTD |= 1 << PD1; PORTD |= 1 << PD2; PORTD |= 1 << PD3;
+			break;
 		
 		case POS_Y1:
-		PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
-		break;
+			PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
+			break;
 		
 		case POS_Y2:
-		PORTD &= 0 << PD6; PORTD &= 0 << PD7; PORTB |= 1 << PB0;
-		break;
+			PORTD &= 0 << PD6; PORTD &= 0 << PD7; PORTB |= 1 << PB0;
+			break;
 		
 		case POS_Y3:
-		PORTD &= 0 << PD6; PORTD |= 1 << PD7; PORTB &= 0 << PB0;
-		break;
+			PORTD &= 0 << PD6; PORTD |= 1 << PD7; PORTB &= 0 << PB0;
+			break;
 		
 		case POS_Y4:
-		PORTD &= 0 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
-		break;
+			PORTD &= 0 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
+			break;
 		
 		case NEG_Y1:
-		PORTD |= 1 << PD6; PORTD &= 0 << PD7; PORTB &= 0 << PB0;
-		break;
+			PORTD |= 1 << PD6; PORTD &= 0 << PD7; PORTB &= 0 << PB0;
+			break;
 		
 		case NEG_Y2:
-		PORTD |= 1 << PD6; PORTD &= 0 << PD7; PORTB |= 1 << PB0;
-		break;
+			PORTD |= 1 << PD6; PORTD &= 0 << PD7; PORTB |= 1 << PB0;
+			break;
 		
 		case NEG_Y3:
-		PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB &= 0 << PB0;
-		break;
+			PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB &= 0 << PB0;
+			break;
 		
 		case NEG_Y4:
-		PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
-		break;
+			PORTD |= 1 << PD6; PORTD |= 1 << PD7; PORTB |= 1 << PB0;
+			break;
 		
 		case CNTR:
-		PORTD |= 1 << PD4;
-		break;
+			PORTD |= 1 << PD4;
+			break;
 		
 		case NOTHING:
-		PORTD &= 0 << PD0; PORTD &= 0 << PD4; PORTD &=  0 << PD5;
-		break;
+		default:
+			PORTD &= 0 << PD0; PORTD &= 0 << PD4; PORTD &=  0 << PD5;
+			break;
 	}
 
 }
