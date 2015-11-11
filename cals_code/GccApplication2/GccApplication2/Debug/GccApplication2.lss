@@ -1,0 +1,466 @@
+
+GccApplication2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  000002be  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000026a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  000002be  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002f0  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  00000330  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000000a2  00000000  00000000  00000350  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000062  00000000  00000000  000003f2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000000f5  00000000  00000000  00000454  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  0000054c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000156  00000000  00000000  00000570  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000224  00000000  00000000  000006c6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  000008ea  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 40 00 	call	0x80	; 0x80 <main>
+  78:	0c 94 33 01 	jmp	0x266	; 0x266 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <main>:
+#include <avr/io.h>
+
+
+int main(void)
+{
+	DDRD = 0xFF; //Make D pins all outputs
+  80:	8f ef       	ldi	r24, 0xFF	; 255
+  82:	8a b9       	out	0x0a, r24	; 10
+	DDRB |= (1<<0); //Make pin B0 output
+  84:	20 9a       	sbi	0x04, 0	; 4
+	PORTD = 0x00; //Set all D pins low
+  86:	1b b8       	out	0x0b, r1	; 11
+	PORTB &= (0<<0); //Set pin B0 to low
+  88:	85 b1       	in	r24, 0x05	; 5
+  8a:	15 b8       	out	0x05, r1	; 5
+	unsigned int adc_value; //to store result of ADC conversion
+	ADCSRA = (1<<ADPS2)|(1<<ADEN); //
+  8c:	84 e8       	ldi	r24, 0x84	; 132
+  8e:	80 93 7a 00 	sts	0x007A, r24
+    while (1) 
+    {
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		// Check X Axis
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		ADCSRA |= (1<<ADSC); //enable ADC
+  92:	ea e7       	ldi	r30, 0x7A	; 122
+  94:	f0 e0       	ldi	r31, 0x00	; 0
+		ADMUX = 0x02; //input on PC2
+  96:	cc e7       	ldi	r28, 0x7C	; 124
+  98:	d0 e0       	ldi	r29, 0x00	; 0
+  9a:	52 e0       	ldi	r21, 0x02	; 2
+		while (ADCSRA & (1<<ADSC)); //wait for conversion to complete
+		adc_value = ADCW; //store result of conversion
+  9c:	a8 e7       	ldi	r26, 0x78	; 120
+  9e:	b0 e0       	ldi	r27, 0x00	; 0
+		
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		// Check Y Axis
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		ADCSRA |= (1<<ADSC); //enable ADC
+		ADMUX = 0x01; //input on pin PC1
+  a0:	41 e0       	ldi	r20, 0x01	; 1
+    while (1) 
+    {
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		// Check X Axis
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		ADCSRA |= (1<<ADSC); //enable ADC
+  a2:	80 81       	ld	r24, Z
+  a4:	80 64       	ori	r24, 0x40	; 64
+  a6:	80 83       	st	Z, r24
+		ADMUX = 0x02; //input on PC2
+  a8:	58 83       	st	Y, r21
+		while (ADCSRA & (1<<ADSC)); //wait for conversion to complete
+  aa:	80 81       	ld	r24, Z
+  ac:	86 fd       	sbrc	r24, 6
+  ae:	fd cf       	rjmp	.-6      	; 0xaa <main+0x2a>
+		adc_value = ADCW; //store result of conversion
+  b0:	8d 91       	ld	r24, X+
+  b2:	9c 91       	ld	r25, X
+  b4:	11 97       	sbiw	r26, 0x01	; 1
+		//Centered
+		if (adc_value >= 148 && adc_value <= 152){
+  b6:	9c 01       	movw	r18, r24
+  b8:	24 59       	subi	r18, 0x94	; 148
+  ba:	31 09       	sbc	r19, r1
+  bc:	25 30       	cpi	r18, 0x05	; 5
+  be:	31 05       	cpc	r19, r1
+  c0:	20 f4       	brcc	.+8      	; 0xca <main+0x4a>
+			PORTD &= (0<<0); //Turn X_CTRL pin off
+  c2:	8b b1       	in	r24, 0x0b	; 11
+  c4:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<4); //Turn Center LED on
+  c6:	5c 9a       	sbi	0x0b, 4	; 11
+  c8:	57 c0       	rjmp	.+174    	; 0x178 <main+0xf8>
+		}
+		// ************ Negative X Values
+		//Negative X1
+		else if (adc_value < 148 && adc_value >= 144){
+  ca:	9c 01       	movw	r18, r24
+  cc:	20 59       	subi	r18, 0x90	; 144
+  ce:	31 09       	sbc	r19, r1
+  d0:	24 30       	cpi	r18, 0x04	; 4
+  d2:	31 05       	cpc	r19, r1
+  d4:	30 f4       	brcc	.+12     	; 0xe2 <main+0x62>
+			PORTD &= (0<<4)&(0<<2)&(0<<1); //turn center pin and select pins off
+  d6:	8b b1       	in	r24, 0x0b	; 11
+  d8:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<3)|(1<<0); //turn correct select pin on and X_CTRL power on
+  da:	8b b1       	in	r24, 0x0b	; 11
+  dc:	89 60       	ori	r24, 0x09	; 9
+  de:	8b b9       	out	0x0b, r24	; 11
+  e0:	4b c0       	rjmp	.+150    	; 0x178 <main+0xf8>
+		}
+		//Negative X2
+		else if (adc_value < 144 && adc_value >= 140){
+  e2:	9c 01       	movw	r18, r24
+  e4:	2c 58       	subi	r18, 0x8C	; 140
+  e6:	31 09       	sbc	r19, r1
+  e8:	24 30       	cpi	r18, 0x04	; 4
+  ea:	31 05       	cpc	r19, r1
+  ec:	30 f4       	brcc	.+12     	; 0xfa <main+0x7a>
+			PORTD &= (0<<4)&(0<<2); //turn center off and correct select pins off
+  ee:	8b b1       	in	r24, 0x0b	; 11
+  f0:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<3)|(1<<1)|(1<<0); //turn on correct select pins and turn X_CTRL on
+  f2:	8b b1       	in	r24, 0x0b	; 11
+  f4:	8b 60       	ori	r24, 0x0B	; 11
+  f6:	8b b9       	out	0x0b, r24	; 11
+  f8:	3f c0       	rjmp	.+126    	; 0x178 <main+0xf8>
+		}
+		//Negative X3
+		else if (adc_value < 140 && adc_value >= 136){
+  fa:	9c 01       	movw	r18, r24
+  fc:	28 58       	subi	r18, 0x88	; 136
+  fe:	31 09       	sbc	r19, r1
+ 100:	24 30       	cpi	r18, 0x04	; 4
+ 102:	31 05       	cpc	r19, r1
+ 104:	30 f4       	brcc	.+12     	; 0x112 <main+0x92>
+			PORTD &= (0<<4)&(0<<1); //turn center off and correct select pins off
+ 106:	8b b1       	in	r24, 0x0b	; 11
+ 108:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<3)|(1<<2)|(1<<0); //turn on correct select pins and X_CTRL
+ 10a:	8b b1       	in	r24, 0x0b	; 11
+ 10c:	8d 60       	ori	r24, 0x0D	; 13
+ 10e:	8b b9       	out	0x0b, r24	; 11
+ 110:	33 c0       	rjmp	.+102    	; 0x178 <main+0xf8>
+		}
+		//Negative X4
+		else if (adc_value < 136){
+ 112:	88 38       	cpi	r24, 0x88	; 136
+ 114:	91 05       	cpc	r25, r1
+ 116:	30 f4       	brcc	.+12     	; 0x124 <main+0xa4>
+			PORTD &= (0<<4); //Turn Center off
+ 118:	8b b1       	in	r24, 0x0b	; 11
+ 11a:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<3)|(1<<2)|(1<<1)|(1<<0); //Turn select pins on and make sure X_CTRL is on
+ 11c:	8b b1       	in	r24, 0x0b	; 11
+ 11e:	8f 60       	ori	r24, 0x0F	; 15
+ 120:	8b b9       	out	0x0b, r24	; 11
+ 122:	2a c0       	rjmp	.+84     	; 0x178 <main+0xf8>
+		}
+		// ************ Positive X Values
+		//Positive X1
+		else if (adc_value > 152 && adc_value <= 156){
+ 124:	9c 01       	movw	r18, r24
+ 126:	29 59       	subi	r18, 0x99	; 153
+ 128:	31 09       	sbc	r19, r1
+ 12a:	24 30       	cpi	r18, 0x04	; 4
+ 12c:	31 05       	cpc	r19, r1
+ 12e:	20 f4       	brcc	.+8      	; 0x138 <main+0xb8>
+			PORTD &= (0<<4)&(0<<1)&(0<<2)&(0<<3); //turn center and select pins all off
+ 130:	8b b1       	in	r24, 0x0b	; 11
+ 132:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<0); //make sure X_CTRL is on
+ 134:	58 9a       	sbi	0x0b, 0	; 11
+ 136:	20 c0       	rjmp	.+64     	; 0x178 <main+0xf8>
+		}
+		//Positive X2
+		else if (adc_value > 156 && adc_value <= 160){
+ 138:	9c 01       	movw	r18, r24
+ 13a:	2d 59       	subi	r18, 0x9D	; 157
+ 13c:	31 09       	sbc	r19, r1
+ 13e:	24 30       	cpi	r18, 0x04	; 4
+ 140:	31 05       	cpc	r19, r1
+ 142:	30 f4       	brcc	.+12     	; 0x150 <main+0xd0>
+			PORTD &= (0<<4)&(0<<3)&(0<<2); //turn center and correct select pins off
+ 144:	8b b1       	in	r24, 0x0b	; 11
+ 146:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<1)|(1<<0); //turn select pin and X_CTRL on
+ 148:	8b b1       	in	r24, 0x0b	; 11
+ 14a:	83 60       	ori	r24, 0x03	; 3
+ 14c:	8b b9       	out	0x0b, r24	; 11
+ 14e:	14 c0       	rjmp	.+40     	; 0x178 <main+0xf8>
+		}
+		//Positive X3
+		else if (adc_value > 160 && adc_value <= 164){
+ 150:	9c 01       	movw	r18, r24
+ 152:	21 5a       	subi	r18, 0xA1	; 161
+ 154:	31 09       	sbc	r19, r1
+ 156:	24 30       	cpi	r18, 0x04	; 4
+ 158:	31 05       	cpc	r19, r1
+ 15a:	30 f4       	brcc	.+12     	; 0x168 <main+0xe8>
+			PORTD &= (0<<4)&(0<<3)&(0<<1);
+ 15c:	8b b1       	in	r24, 0x0b	; 11
+ 15e:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<2)|(1<<0);
+ 160:	8b b1       	in	r24, 0x0b	; 11
+ 162:	85 60       	ori	r24, 0x05	; 5
+ 164:	8b b9       	out	0x0b, r24	; 11
+ 166:	08 c0       	rjmp	.+16     	; 0x178 <main+0xf8>
+		}
+		//Positive X4
+		else if (adc_value > 164){
+ 168:	85 3a       	cpi	r24, 0xA5	; 165
+ 16a:	91 05       	cpc	r25, r1
+ 16c:	28 f0       	brcs	.+10     	; 0x178 <main+0xf8>
+			PORTD &= (0<<4)&(0<<3);
+ 16e:	8b b1       	in	r24, 0x0b	; 11
+ 170:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<2)|(1<<1)|(1<<0);
+ 172:	8b b1       	in	r24, 0x0b	; 11
+ 174:	87 60       	ori	r24, 0x07	; 7
+ 176:	8b b9       	out	0x0b, r24	; 11
+		}
+		
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		// Check Y Axis
+		// @@@@@@@@@@@@@@@@@@@@@@@@@
+		ADCSRA |= (1<<ADSC); //enable ADC
+ 178:	80 81       	ld	r24, Z
+ 17a:	80 64       	ori	r24, 0x40	; 64
+ 17c:	80 83       	st	Z, r24
+		ADMUX = 0x01; //input on pin PC1
+ 17e:	48 83       	st	Y, r20
+		while (ADCSRA & (1<<ADSC)); //Wait for conversion to complete
+ 180:	80 81       	ld	r24, Z
+ 182:	86 fd       	sbrc	r24, 6
+ 184:	fd cf       	rjmp	.-6      	; 0x180 <main+0x100>
+		adc_value = ADCW; //store result of conversion
+ 186:	8d 91       	ld	r24, X+
+ 188:	9c 91       	ld	r25, X
+ 18a:	11 97       	sbiw	r26, 0x01	; 1
+		//Centered
+		if (adc_value >= 148 && adc_value <= 152){
+ 18c:	9c 01       	movw	r18, r24
+ 18e:	24 59       	subi	r18, 0x94	; 148
+ 190:	31 09       	sbc	r19, r1
+ 192:	25 30       	cpi	r18, 0x05	; 5
+ 194:	31 05       	cpc	r19, r1
+ 196:	20 f4       	brcc	.+8      	; 0x1a0 <main+0x120>
+			PORTD &= (0<<5); //Set Y_CTRL pin low
+ 198:	8b b1       	in	r24, 0x0b	; 11
+ 19a:	1b b8       	out	0x0b, r1	; 11
+			PORTD |= (1<<4); //Set Center LED high
+ 19c:	5c 9a       	sbi	0x0b, 4	; 11
+ 19e:	81 cf       	rjmp	.-254    	; 0xa2 <main+0x22>
+		}
+		// ************ Negative Y Values
+		//Negative Y1
+		else if (adc_value < 148 && adc_value >= 144){
+ 1a0:	9c 01       	movw	r18, r24
+ 1a2:	20 59       	subi	r18, 0x90	; 144
+ 1a4:	31 09       	sbc	r19, r1
+ 1a6:	24 30       	cpi	r18, 0x04	; 4
+ 1a8:	31 05       	cpc	r19, r1
+ 1aa:	28 f4       	brcc	.+10     	; 0x1b6 <main+0x136>
+			PORTD &= (0<<7)&(0<<6)&(0<<4); //Set Center pin and corresponding select pins low
+ 1ac:	8b b1       	in	r24, 0x0b	; 11
+ 1ae:	1b b8       	out	0x0b, r1	; 11
+			PORTB |= (1<<0); //Set corresponding select pin high
+ 1b0:	28 9a       	sbi	0x05, 0	; 5
+			PORTD |= (1<<5); //Make sure Y_CTRL pin is high			
+ 1b2:	5d 9a       	sbi	0x0b, 5	; 11
+ 1b4:	76 cf       	rjmp	.-276    	; 0xa2 <main+0x22>
+		}
+		//Negative Y2
+		else if (adc_value < 144 && adc_value >= 140){
+ 1b6:	9c 01       	movw	r18, r24
+ 1b8:	2c 58       	subi	r18, 0x8C	; 140
+ 1ba:	31 09       	sbc	r19, r1
+ 1bc:	24 30       	cpi	r18, 0x04	; 4
+ 1be:	31 05       	cpc	r19, r1
+ 1c0:	38 f4       	brcc	.+14     	; 0x1d0 <main+0x150>
+			PORTD &= (0<<7)&(0<<4); //Set Center and corresponding select pins low
+ 1c2:	8b b1       	in	r24, 0x0b	; 11
+ 1c4:	1b b8       	out	0x0b, r1	; 11
+			PORTB |= (1<<0); //Set corresponding select pin high
+ 1c6:	28 9a       	sbi	0x05, 0	; 5
+			PORTD |= (1<<6)|(1<<5); //continue w/select pins and make sure Y_CTRL is high
+ 1c8:	8b b1       	in	r24, 0x0b	; 11
+ 1ca:	80 66       	ori	r24, 0x60	; 96
+ 1cc:	8b b9       	out	0x0b, r24	; 11
+ 1ce:	69 cf       	rjmp	.-302    	; 0xa2 <main+0x22>
+		}
+		//Negative Y3
+		else if (adc_value < 140 && adc_value >= 136){
+ 1d0:	9c 01       	movw	r18, r24
+ 1d2:	28 58       	subi	r18, 0x88	; 136
+ 1d4:	31 09       	sbc	r19, r1
+ 1d6:	24 30       	cpi	r18, 0x04	; 4
+ 1d8:	31 05       	cpc	r19, r1
+ 1da:	38 f4       	brcc	.+14     	; 0x1ea <main+0x16a>
+			PORTD &= (0<<6)&(0<<4); //Set Center and corresponding select pins low
+ 1dc:	8b b1       	in	r24, 0x0b	; 11
+ 1de:	1b b8       	out	0x0b, r1	; 11
+			PORTB |= (1<<0); //Set corresponding select pin high
+ 1e0:	28 9a       	sbi	0x05, 0	; 5
+			PORTD |= (1<<7)|(1<<5); //continue with select pins and make sure Y_CTRL is high
+ 1e2:	8b b1       	in	r24, 0x0b	; 11
+ 1e4:	80 6a       	ori	r24, 0xA0	; 160
+ 1e6:	8b b9       	out	0x0b, r24	; 11
+ 1e8:	5c cf       	rjmp	.-328    	; 0xa2 <main+0x22>
+		}
+		//Negative Y4
+		else if (adc_value < 136){
+ 1ea:	88 38       	cpi	r24, 0x88	; 136
+ 1ec:	91 05       	cpc	r25, r1
+ 1ee:	38 f4       	brcc	.+14     	; 0x1fe <main+0x17e>
+			PORTD &= (0<<4); //Set Center low
+ 1f0:	8b b1       	in	r24, 0x0b	; 11
+ 1f2:	1b b8       	out	0x0b, r1	; 11
+			PORTB |= (1<<0); //Set corresponding select pin high
+ 1f4:	28 9a       	sbi	0x05, 0	; 5
+			PORTD |= (1<<7)|(1<<6)|(1<<5); //Set remaining select pins and Y_CTRL high
+ 1f6:	8b b1       	in	r24, 0x0b	; 11
+ 1f8:	80 6e       	ori	r24, 0xE0	; 224
+ 1fa:	8b b9       	out	0x0b, r24	; 11
+ 1fc:	52 cf       	rjmp	.-348    	; 0xa2 <main+0x22>
+		}
+		// ************ Positive Y Values
+		//Positive Y1
+		else if (adc_value > 152 && adc_value <= 156){
+ 1fe:	9c 01       	movw	r18, r24
+ 200:	29 59       	subi	r18, 0x99	; 153
+ 202:	31 09       	sbc	r19, r1
+ 204:	24 30       	cpi	r18, 0x04	; 4
+ 206:	31 05       	cpc	r19, r1
+ 208:	30 f4       	brcc	.+12     	; 0x216 <main+0x196>
+			PORTD &= (0<<7)&(0<<6)&(0<<4); //Set Center low and corresponding select pins
+ 20a:	8b b1       	in	r24, 0x0b	; 11
+ 20c:	1b b8       	out	0x0b, r1	; 11
+			PORTB &= (0<<0); //Set corresponding select pin low
+ 20e:	85 b1       	in	r24, 0x05	; 5
+ 210:	15 b8       	out	0x05, r1	; 5
+			PORTD |= (1<<5); //Set Y_CTRL high
+ 212:	5d 9a       	sbi	0x0b, 5	; 11
+ 214:	46 cf       	rjmp	.-372    	; 0xa2 <main+0x22>
+		}
+		//Positive Y2
+		else if (adc_value > 156 && adc_value <= 160){
+ 216:	9c 01       	movw	r18, r24
+ 218:	2d 59       	subi	r18, 0x9D	; 157
+ 21a:	31 09       	sbc	r19, r1
+ 21c:	24 30       	cpi	r18, 0x04	; 4
+ 21e:	31 05       	cpc	r19, r1
+ 220:	40 f4       	brcc	.+16     	; 0x232 <main+0x1b2>
+			PORTD &= (0<<7)&(0<<4); //Set Center and corresponding select pins low
+ 222:	8b b1       	in	r24, 0x0b	; 11
+ 224:	1b b8       	out	0x0b, r1	; 11
+			PORTB &= (0<<0); //Set corresponding select pin low
+ 226:	85 b1       	in	r24, 0x05	; 5
+ 228:	15 b8       	out	0x05, r1	; 5
+			PORTD |= (1<<6)|(1<<5); //Set corresponding select pins and Y_CTRL high
+ 22a:	8b b1       	in	r24, 0x0b	; 11
+ 22c:	80 66       	ori	r24, 0x60	; 96
+ 22e:	8b b9       	out	0x0b, r24	; 11
+ 230:	38 cf       	rjmp	.-400    	; 0xa2 <main+0x22>
+		}
+		//Positive Y3
+		else if (adc_value > 160 && adc_value <= 164){
+ 232:	9c 01       	movw	r18, r24
+ 234:	21 5a       	subi	r18, 0xA1	; 161
+ 236:	31 09       	sbc	r19, r1
+ 238:	24 30       	cpi	r18, 0x04	; 4
+ 23a:	31 05       	cpc	r19, r1
+ 23c:	40 f4       	brcc	.+16     	; 0x24e <main+0x1ce>
+			PORTD &= (0<<6)&(0<<4); //Set Center and select pins low
+ 23e:	8b b1       	in	r24, 0x0b	; 11
+ 240:	1b b8       	out	0x0b, r1	; 11
+			PORTB &= (0<<0); //Set corresponding select pin low
+ 242:	85 b1       	in	r24, 0x05	; 5
+ 244:	15 b8       	out	0x05, r1	; 5
+			PORTD |= (1<<7)|(1<<5); //Set corresponding select pins and Y_CTRL high
+ 246:	8b b1       	in	r24, 0x0b	; 11
+ 248:	80 6a       	ori	r24, 0xA0	; 160
+ 24a:	8b b9       	out	0x0b, r24	; 11
+ 24c:	2a cf       	rjmp	.-428    	; 0xa2 <main+0x22>
+		}
+		//Positive Y4
+		else if (adc_value > 164){
+ 24e:	85 3a       	cpi	r24, 0xA5	; 165
+ 250:	91 05       	cpc	r25, r1
+ 252:	08 f4       	brcc	.+2      	; 0x256 <main+0x1d6>
+ 254:	26 cf       	rjmp	.-436    	; 0xa2 <main+0x22>
+			PORTD &= (0<<4); //Set Center low
+ 256:	8b b1       	in	r24, 0x0b	; 11
+ 258:	1b b8       	out	0x0b, r1	; 11
+			PORTB &= (0<<0); //Set corresponding select pin low
+ 25a:	85 b1       	in	r24, 0x05	; 5
+ 25c:	15 b8       	out	0x05, r1	; 5
+			PORTD |= (1<<7)|(1<<6)|(1<<5); //Set corresponding select pins and Y_CTRL high
+ 25e:	8b b1       	in	r24, 0x0b	; 11
+ 260:	80 6e       	ori	r24, 0xE0	; 224
+ 262:	8b b9       	out	0x0b, r24	; 11
+ 264:	1e cf       	rjmp	.-452    	; 0xa2 <main+0x22>
+
+00000266 <_exit>:
+ 266:	f8 94       	cli
+
+00000268 <__stop_program>:
+ 268:	ff cf       	rjmp	.-2      	; 0x268 <__stop_program>
