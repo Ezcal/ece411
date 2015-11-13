@@ -21,11 +21,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  00000024  00000000  00000000  0000054c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000156  00000000  00000000  00000570  2**0
+  9 .debug_str    0000017c  00000000  00000000  00000570  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000224  00000000  00000000  000006c6  2**0
+ 10 .debug_loc    00000224  00000000  00000000  000006ec  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  000008ea  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  00000910  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -134,11 +134,11 @@ int main(void)
   b2:	9c 91       	ld	r25, X
   b4:	11 97       	sbiw	r26, 0x01	; 1
 		//Centered
-		if (adc_value >= 148 && adc_value <= 152){
+		if (adc_value >= 147 && adc_value <= 153){
   b6:	9c 01       	movw	r18, r24
-  b8:	24 59       	subi	r18, 0x94	; 148
+  b8:	23 59       	subi	r18, 0x93	; 147
   ba:	31 09       	sbc	r19, r1
-  bc:	25 30       	cpi	r18, 0x05	; 5
+  bc:	27 30       	cpi	r18, 0x07	; 7
   be:	31 05       	cpc	r19, r1
   c0:	20 f4       	brcc	.+8      	; 0xca <main+0x4a>
 			PORTD &= (0<<0); //Turn X_CTRL pin off
@@ -150,11 +150,11 @@ int main(void)
 		}
 		// ************ Negative X Values
 		//Negative X1
-		else if (adc_value < 148 && adc_value >= 144){
+		else if (adc_value < 147 && adc_value >= 141){
   ca:	9c 01       	movw	r18, r24
-  cc:	20 59       	subi	r18, 0x90	; 144
+  cc:	2d 58       	subi	r18, 0x8D	; 141
   ce:	31 09       	sbc	r19, r1
-  d0:	24 30       	cpi	r18, 0x04	; 4
+  d0:	26 30       	cpi	r18, 0x06	; 6
   d2:	31 05       	cpc	r19, r1
   d4:	30 f4       	brcc	.+12     	; 0xe2 <main+0x62>
 			PORTD &= (0<<4)&(0<<2)&(0<<1); //turn center pin and select pins off
@@ -167,11 +167,11 @@ int main(void)
   e0:	4b c0       	rjmp	.+150    	; 0x178 <main+0xf8>
 		}
 		//Negative X2
-		else if (adc_value < 144 && adc_value >= 140){
+		else if (adc_value < 141 && adc_value >= 135){
   e2:	9c 01       	movw	r18, r24
-  e4:	2c 58       	subi	r18, 0x8C	; 140
+  e4:	27 58       	subi	r18, 0x87	; 135
   e6:	31 09       	sbc	r19, r1
-  e8:	24 30       	cpi	r18, 0x04	; 4
+  e8:	26 30       	cpi	r18, 0x06	; 6
   ea:	31 05       	cpc	r19, r1
   ec:	30 f4       	brcc	.+12     	; 0xfa <main+0x7a>
 			PORTD &= (0<<4)&(0<<2); //turn center off and correct select pins off
@@ -184,11 +184,11 @@ int main(void)
   f8:	3f c0       	rjmp	.+126    	; 0x178 <main+0xf8>
 		}
 		//Negative X3
-		else if (adc_value < 140 && adc_value >= 136){
+		else if (adc_value < 135 && adc_value >= 129){
   fa:	9c 01       	movw	r18, r24
-  fc:	28 58       	subi	r18, 0x88	; 136
+  fc:	21 58       	subi	r18, 0x81	; 129
   fe:	31 09       	sbc	r19, r1
- 100:	24 30       	cpi	r18, 0x04	; 4
+ 100:	26 30       	cpi	r18, 0x06	; 6
  102:	31 05       	cpc	r19, r1
  104:	30 f4       	brcc	.+12     	; 0x112 <main+0x92>
 			PORTD &= (0<<4)&(0<<1); //turn center off and correct select pins off
@@ -201,8 +201,8 @@ int main(void)
  110:	33 c0       	rjmp	.+102    	; 0x178 <main+0xf8>
 		}
 		//Negative X4
-		else if (adc_value < 136){
- 112:	88 38       	cpi	r24, 0x88	; 136
+		else if (adc_value < 129){
+ 112:	81 38       	cpi	r24, 0x81	; 129
  114:	91 05       	cpc	r25, r1
  116:	30 f4       	brcc	.+12     	; 0x124 <main+0xa4>
 			PORTD &= (0<<4); //Turn Center off
@@ -216,11 +216,11 @@ int main(void)
 		}
 		// ************ Positive X Values
 		//Positive X1
-		else if (adc_value > 152 && adc_value <= 156){
+		else if (adc_value > 153 && adc_value <= 159){
  124:	9c 01       	movw	r18, r24
- 126:	29 59       	subi	r18, 0x99	; 153
+ 126:	2a 59       	subi	r18, 0x9A	; 154
  128:	31 09       	sbc	r19, r1
- 12a:	24 30       	cpi	r18, 0x04	; 4
+ 12a:	26 30       	cpi	r18, 0x06	; 6
  12c:	31 05       	cpc	r19, r1
  12e:	20 f4       	brcc	.+8      	; 0x138 <main+0xb8>
 			PORTD &= (0<<4)&(0<<1)&(0<<2)&(0<<3); //turn center and select pins all off
@@ -231,11 +231,11 @@ int main(void)
  136:	20 c0       	rjmp	.+64     	; 0x178 <main+0xf8>
 		}
 		//Positive X2
-		else if (adc_value > 156 && adc_value <= 160){
+		else if (adc_value > 159 && adc_value <= 165){
  138:	9c 01       	movw	r18, r24
- 13a:	2d 59       	subi	r18, 0x9D	; 157
+ 13a:	20 5a       	subi	r18, 0xA0	; 160
  13c:	31 09       	sbc	r19, r1
- 13e:	24 30       	cpi	r18, 0x04	; 4
+ 13e:	26 30       	cpi	r18, 0x06	; 6
  140:	31 05       	cpc	r19, r1
  142:	30 f4       	brcc	.+12     	; 0x150 <main+0xd0>
 			PORTD &= (0<<4)&(0<<3)&(0<<2); //turn center and correct select pins off
@@ -248,11 +248,11 @@ int main(void)
  14e:	14 c0       	rjmp	.+40     	; 0x178 <main+0xf8>
 		}
 		//Positive X3
-		else if (adc_value > 160 && adc_value <= 164){
+		else if (adc_value > 165 && adc_value <= 171){
  150:	9c 01       	movw	r18, r24
- 152:	21 5a       	subi	r18, 0xA1	; 161
+ 152:	26 5a       	subi	r18, 0xA6	; 166
  154:	31 09       	sbc	r19, r1
- 156:	24 30       	cpi	r18, 0x04	; 4
+ 156:	26 30       	cpi	r18, 0x06	; 6
  158:	31 05       	cpc	r19, r1
  15a:	30 f4       	brcc	.+12     	; 0x168 <main+0xe8>
 			PORTD &= (0<<4)&(0<<3)&(0<<1);
@@ -265,8 +265,8 @@ int main(void)
  166:	08 c0       	rjmp	.+16     	; 0x178 <main+0xf8>
 		}
 		//Positive X4
-		else if (adc_value > 164){
- 168:	85 3a       	cpi	r24, 0xA5	; 165
+		else if (adc_value > 171){
+ 168:	8c 3a       	cpi	r24, 0xAC	; 172
  16a:	91 05       	cpc	r25, r1
  16c:	28 f0       	brcs	.+10     	; 0x178 <main+0xf8>
 			PORTD &= (0<<4)&(0<<3);
@@ -296,11 +296,11 @@ int main(void)
  188:	9c 91       	ld	r25, X
  18a:	11 97       	sbiw	r26, 0x01	; 1
 		//Centered
-		if (adc_value >= 148 && adc_value <= 152){
+		if (adc_value >= 147 && adc_value <= 153){
  18c:	9c 01       	movw	r18, r24
- 18e:	24 59       	subi	r18, 0x94	; 148
+ 18e:	23 59       	subi	r18, 0x93	; 147
  190:	31 09       	sbc	r19, r1
- 192:	25 30       	cpi	r18, 0x05	; 5
+ 192:	27 30       	cpi	r18, 0x07	; 7
  194:	31 05       	cpc	r19, r1
  196:	20 f4       	brcc	.+8      	; 0x1a0 <main+0x120>
 			PORTD &= (0<<5); //Set Y_CTRL pin low
@@ -312,11 +312,11 @@ int main(void)
 		}
 		// ************ Negative Y Values
 		//Negative Y1
-		else if (adc_value < 148 && adc_value >= 144){
+		else if (adc_value < 147 && adc_value >= 141){
  1a0:	9c 01       	movw	r18, r24
- 1a2:	20 59       	subi	r18, 0x90	; 144
+ 1a2:	2d 58       	subi	r18, 0x8D	; 141
  1a4:	31 09       	sbc	r19, r1
- 1a6:	24 30       	cpi	r18, 0x04	; 4
+ 1a6:	26 30       	cpi	r18, 0x06	; 6
  1a8:	31 05       	cpc	r19, r1
  1aa:	28 f4       	brcc	.+10     	; 0x1b6 <main+0x136>
 			PORTD &= (0<<7)&(0<<6)&(0<<4); //Set Center pin and corresponding select pins low
@@ -329,11 +329,11 @@ int main(void)
  1b4:	76 cf       	rjmp	.-276    	; 0xa2 <main+0x22>
 		}
 		//Negative Y2
-		else if (adc_value < 144 && adc_value >= 140){
+		else if (adc_value < 141 && adc_value >= 135){
  1b6:	9c 01       	movw	r18, r24
- 1b8:	2c 58       	subi	r18, 0x8C	; 140
+ 1b8:	27 58       	subi	r18, 0x87	; 135
  1ba:	31 09       	sbc	r19, r1
- 1bc:	24 30       	cpi	r18, 0x04	; 4
+ 1bc:	26 30       	cpi	r18, 0x06	; 6
  1be:	31 05       	cpc	r19, r1
  1c0:	38 f4       	brcc	.+14     	; 0x1d0 <main+0x150>
 			PORTD &= (0<<7)&(0<<4); //Set Center and corresponding select pins low
@@ -348,11 +348,11 @@ int main(void)
  1ce:	69 cf       	rjmp	.-302    	; 0xa2 <main+0x22>
 		}
 		//Negative Y3
-		else if (adc_value < 140 && adc_value >= 136){
+		else if (adc_value < 135 && adc_value >= 129){
  1d0:	9c 01       	movw	r18, r24
- 1d2:	28 58       	subi	r18, 0x88	; 136
+ 1d2:	21 58       	subi	r18, 0x81	; 129
  1d4:	31 09       	sbc	r19, r1
- 1d6:	24 30       	cpi	r18, 0x04	; 4
+ 1d6:	26 30       	cpi	r18, 0x06	; 6
  1d8:	31 05       	cpc	r19, r1
  1da:	38 f4       	brcc	.+14     	; 0x1ea <main+0x16a>
 			PORTD &= (0<<6)&(0<<4); //Set Center and corresponding select pins low
@@ -367,8 +367,8 @@ int main(void)
  1e8:	5c cf       	rjmp	.-328    	; 0xa2 <main+0x22>
 		}
 		//Negative Y4
-		else if (adc_value < 136){
- 1ea:	88 38       	cpi	r24, 0x88	; 136
+		else if (adc_value < 129){
+ 1ea:	81 38       	cpi	r24, 0x81	; 129
  1ec:	91 05       	cpc	r25, r1
  1ee:	38 f4       	brcc	.+14     	; 0x1fe <main+0x17e>
 			PORTD &= (0<<4); //Set Center low
@@ -384,11 +384,11 @@ int main(void)
 		}
 		// ************ Positive Y Values
 		//Positive Y1
-		else if (adc_value > 152 && adc_value <= 156){
+		else if (adc_value > 153 && adc_value <= 159){
  1fe:	9c 01       	movw	r18, r24
- 200:	29 59       	subi	r18, 0x99	; 153
+ 200:	2a 59       	subi	r18, 0x9A	; 154
  202:	31 09       	sbc	r19, r1
- 204:	24 30       	cpi	r18, 0x04	; 4
+ 204:	26 30       	cpi	r18, 0x06	; 6
  206:	31 05       	cpc	r19, r1
  208:	30 f4       	brcc	.+12     	; 0x216 <main+0x196>
 			PORTD &= (0<<7)&(0<<6)&(0<<4); //Set Center low and corresponding select pins
@@ -402,11 +402,11 @@ int main(void)
  214:	46 cf       	rjmp	.-372    	; 0xa2 <main+0x22>
 		}
 		//Positive Y2
-		else if (adc_value > 156 && adc_value <= 160){
+		else if (adc_value > 159 && adc_value <= 165){
  216:	9c 01       	movw	r18, r24
- 218:	2d 59       	subi	r18, 0x9D	; 157
+ 218:	20 5a       	subi	r18, 0xA0	; 160
  21a:	31 09       	sbc	r19, r1
- 21c:	24 30       	cpi	r18, 0x04	; 4
+ 21c:	26 30       	cpi	r18, 0x06	; 6
  21e:	31 05       	cpc	r19, r1
  220:	40 f4       	brcc	.+16     	; 0x232 <main+0x1b2>
 			PORTD &= (0<<7)&(0<<4); //Set Center and corresponding select pins low
@@ -422,11 +422,11 @@ int main(void)
  230:	38 cf       	rjmp	.-400    	; 0xa2 <main+0x22>
 		}
 		//Positive Y3
-		else if (adc_value > 160 && adc_value <= 164){
+		else if (adc_value > 165 && adc_value <= 171){
  232:	9c 01       	movw	r18, r24
- 234:	21 5a       	subi	r18, 0xA1	; 161
+ 234:	26 5a       	subi	r18, 0xA6	; 166
  236:	31 09       	sbc	r19, r1
- 238:	24 30       	cpi	r18, 0x04	; 4
+ 238:	26 30       	cpi	r18, 0x06	; 6
  23a:	31 05       	cpc	r19, r1
  23c:	40 f4       	brcc	.+16     	; 0x24e <main+0x1ce>
 			PORTD &= (0<<6)&(0<<4); //Set Center and select pins low
@@ -442,8 +442,8 @@ int main(void)
  24c:	2a cf       	rjmp	.-428    	; 0xa2 <main+0x22>
 		}
 		//Positive Y4
-		else if (adc_value > 164){
- 24e:	85 3a       	cpi	r24, 0xA5	; 165
+		else if (adc_value > 171){
+ 24e:	8c 3a       	cpi	r24, 0xAC	; 172
  250:	91 05       	cpc	r25, r1
  252:	08 f4       	brcc	.+2      	; 0x256 <main+0x1d6>
  254:	26 cf       	rjmp	.-436    	; 0xa2 <main+0x22>
