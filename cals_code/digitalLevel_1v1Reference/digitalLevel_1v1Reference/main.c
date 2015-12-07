@@ -3,7 +3,7 @@
  *
  * Created: 11/2/2015 19:59:22 PM
  * Author : Calhoun Zabel
- */ 
+ */
 
 #include <avr/io.h>
 
@@ -26,7 +26,7 @@ int main(void)
 		// Check X Axis
 		// @@@@@@@@@@@@@@@@@@@@@@@@@
 		ADCSRA |= (1<<ADSC); //enable ADC
-		ADMUX = 0xC2; //input on PC2
+		ADMUX = 0xC1; //input on PC1
 		while (ADCSRA & (1<<ADSC)); //wait for conversion to complete
 		adc_value = ADCW; //store result of conversion
 		//Centered
@@ -98,7 +98,7 @@ int main(void)
 		// Check Y Axis
 		// @@@@@@@@@@@@@@@@@@@@@@@@@
 		ADCSRA |= (1<<ADSC); //enable ADC
-		ADMUX = 0xC1; //input on pin PC1
+		ADMUX = 0xC2; //input on pin PC2
 		while (ADCSRA & (1<<ADSC)); //Wait for conversion to complete
 		adc_value = ADCW; //store result of conversion
 		//Centered
@@ -175,4 +175,3 @@ int main(void)
 		}
     }
 }
-

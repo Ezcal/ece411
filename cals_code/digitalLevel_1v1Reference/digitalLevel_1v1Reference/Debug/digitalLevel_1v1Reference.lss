@@ -99,10 +99,10 @@ int main(void)
 		ADCSRA |= (1<<ADSC); //enable ADC
   92:	ea e7       	ldi	r30, 0x7A	; 122
   94:	f0 e0       	ldi	r31, 0x00	; 0
-		ADMUX = 0xC2; //input on PC2
+		ADMUX = 0xC1; //input on PC1
   96:	cc e7       	ldi	r28, 0x7C	; 124
   98:	d0 e0       	ldi	r29, 0x00	; 0
-  9a:	72 ec       	ldi	r23, 0xC2	; 194
+  9a:	71 ec       	ldi	r23, 0xC1	; 193
 		while (ADCSRA & (1<<ADSC)); //wait for conversion to complete
 		adc_value = ADCW; //store result of conversion
   9c:	a8 e7       	ldi	r26, 0x78	; 120
@@ -126,8 +126,8 @@ int main(void)
 		// Check Y Axis
 		// @@@@@@@@@@@@@@@@@@@@@@@@@
 		ADCSRA |= (1<<ADSC); //enable ADC
-		ADMUX = 0xC1; //input on pin PC1
-  a4:	61 ec       	ldi	r22, 0xC1	; 193
+		ADMUX = 0xC2; //input on pin PC2
+  a4:	62 ec       	ldi	r22, 0xC2	; 194
     while (1) 
     {
 		// @@@@@@@@@@@@@@@@@@@@@@@@@
@@ -137,7 +137,7 @@ int main(void)
   a6:	80 81       	ld	r24, Z
   a8:	80 64       	ori	r24, 0x40	; 64
   aa:	80 83       	st	Z, r24
-		ADMUX = 0xC2; //input on PC2
+		ADMUX = 0xC1; //input on PC1
   ac:	78 83       	st	Y, r23
 		while (ADCSRA & (1<<ADSC)); //wait for conversion to complete
   ae:	80 81       	ld	r24, Z
@@ -332,7 +332,7 @@ int main(void)
  19c:	80 81       	ld	r24, Z
  19e:	80 64       	ori	r24, 0x40	; 64
  1a0:	80 83       	st	Z, r24
-		ADMUX = 0xC1; //input on pin PC1
+		ADMUX = 0xC2; //input on pin PC2
  1a2:	68 83       	st	Y, r22
 		while (ADCSRA & (1<<ADSC)); //Wait for conversion to complete
  1a4:	80 81       	ld	r24, Z
